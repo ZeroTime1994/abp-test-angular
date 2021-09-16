@@ -8,6 +8,9 @@ import { OAuthService } from 'angular-oauth2-oidc';
   styleUrls: ['./home.component.scss'],
 })
 export class HomeComponent {
+  public username;
+  public password;
+
   get hasLoggedIn(): boolean {
     return this.oAuthService.hasValidAccessToken();
   }
@@ -15,6 +18,14 @@ export class HomeComponent {
   constructor(private oAuthService: OAuthService, private authService: AuthService) {}
 
   login() {
-    this.authService.navigateToLogin();
+    this.authService
+      .login({
+        password: this.password,
+        username: this.username,
+        rememberMe: true,
+      })
+      .subscribe(result => {
+        console.log(result);
+      });
   }
 }
